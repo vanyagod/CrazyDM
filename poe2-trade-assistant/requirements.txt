@@ -1,10 +1,20 @@
+# Основные зависимости для API
 requests>=2.31.0
 aiohttp>=3.9.0
+
+# Конфигурация и валидация
 pydantic>=2.5.0
+pydantic-settings>=2.0.0
+python-dotenv>=1.0.0
+
+# CLI и UI
 typer>=0.9.0
 rich>=13.7.0
-python-dotenv>=1.0.0
+
+# Планировщик и уведомления
 schedule>=1.2.0
+
+# Анализ данных (опционально)
 matplotlib>=3.8.0
 pandas>=2.1.0
 numpy>=1.24.0
