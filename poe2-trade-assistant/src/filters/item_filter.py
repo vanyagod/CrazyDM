@@ -41,7 +41,13 @@ class FilterCondition(BaseModel):
             # Получаем значение поля из объекта
             field_value = self._get_field_value(obj, self.field)
             
-            if field_value is None:
+            # Специальная обработка для проверки на None
+            if self.operator == FilterOperator.NOT_EQUALS and self.value is None:
+                return field_value is not None
+            elif self.operator == FilterOperator.EQUALS and self.value is None:
+                return field_value is None
+            
+            if field_value is None and self.value is not None:
                 return False
             
             # Применяем оператор

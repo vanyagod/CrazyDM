@@ -117,7 +117,7 @@ class MainWindow:
         ttk.Label(search_frame, text="Лига:").pack(anchor=tk.W, padx=5, pady=2)
         self.league_var = tk.StringVar(value=self.settings.league)
         league_combo = ttk.Combobox(search_frame, textvariable=self.league_var, width=27)
-        league_combo['values'] = ["Hardcore", "Standard", "Hardcore SSF", "SSF"]
+        league_combo['values'] = ["Necrosis", "Delirium", "Breach", "Ritual", "Necrosis HC", "Delirium HC", "Breach HC", "Ritual HC"]
         league_combo.pack(fill=tk.X, padx=5, pady=2)
         
         # Цена
@@ -329,8 +329,9 @@ class MainWindow:
                 self.root.after(0, lambda: self.update_results(filtered_results))
                 
             except Exception as e:
-                logger.error(f"Search failed: {e}")
-                self.root.after(0, lambda: self.status_var.set(f"Ошибка поиска: {e}"))
+                error_msg = str(e)
+                logger.error(f"Search failed: {error_msg}")
+                self.root.after(0, lambda msg=error_msg: self.status_var.set(f"Ошибка поиска: {msg}"))
         
         # Запускаем поиск в отдельном потоке
         threading.Thread(target=run_search, daemon=True).start()

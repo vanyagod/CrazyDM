@@ -23,9 +23,9 @@ load_dotenv()
 class Settings(BaseSettings):
     """Класс настроек приложения"""
     
-    # API настройки
+    # API настройки для PoE2
     poe_api_base_url: str = Field(
-        default="https://www.pathofexile.com/api/trade",
+        default="https://www.pathofexile.com/api/trade2",
         env="POE_API_BASE_URL"
     )
     poe2_api_base_url: str = Field(
@@ -50,7 +50,7 @@ class Settings(BaseSettings):
     # Фильтры поиска
     max_price: Optional[float] = Field(default=100, env="MAX_PRICE")
     min_price: Optional[float] = Field(default=1, env="MIN_PRICE")
-    league: str = Field(default="Hardcore", env="LEAGUE")
+    league: str = Field(default="Necrosis", env="LEAGUE")
     
     # Отладка
     debug: bool = Field(default=False, env="DEBUG")
