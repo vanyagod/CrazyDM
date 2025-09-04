@@ -5,7 +5,21 @@
 import os
 from pathlib import Path
 from typing import Optional
-from pydantic import BaseSettings, Field
+try:
+    from pydantic_settings import BaseSettings
+    from pydantic import Field
+except ImportError:
+    try:
+        from pydantic import BaseSettings, Field
+    except ImportError:
+        # Fallback для случая когда pydantic недоступен
+        class BaseSettings:
+            def __init__(self, **kwargs):
+                for key, value in kwargs.items():
+                    setattr(self, key, value)
+        
+        def Field(default=None, **kwargs):
+            return default
 from dotenv import load_dotenv
 
 # Загружаем переменные окружения
