@@ -7,7 +7,7 @@ from tkinter import ttk, messagebox, filedialog
 import asyncio
 import threading
 import json
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 import logging
 
 from config.settings import Settings
