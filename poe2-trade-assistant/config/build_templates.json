@@ -1,0 +1,88 @@
+{
+  "templates": [
+    {
+      "name": "Witch Elemental Build",
+      "description": "Template for Witch elemental damage builds",
+      "item_types": ["Wand", "Staff", "Robe", "Helmet", "Gloves", "Boots"],
+      "required_stats": [
+        "increased Elemental Damage",
+        "increased Spell Damage",
+        "increased Cast Speed",
+        "increased Mana",
+        "Elemental Resistances"
+      ],
+      "max_price": 100,
+      "league": "Hardcore"
+    },
+    {
+      "name": "Ranger Bow Build",
+      "description": "Template for Ranger bow builds",
+      "item_types": ["Bow", "Quiver", "Body Armour", "Helmet", "Gloves", "Boots"],
+      "required_stats": [
+        "increased Physical Damage",
+        "increased Attack Speed",
+        "increased Critical Strike",
+        "increased Life",
+        "Elemental Resistances"
+      ],
+      "max_price": 150,
+      "league": "Hardcore"
+    },
+    {
+      "name": "Monk Melee Build",
+      "description": "Template for Monk melee builds",
+      "item_types": ["Claw", "Quarterstaff", "Body Armour", "Helmet", "Gloves", "Boots"],
+      "required_stats": [
+        "increased Melee Damage",
+        "increased Attack Speed",
+        "increased Life",
+        "increased Movement Speed",
+        "Elemental Resistances"
+      ],
+      "max_price": 80,
+      "league": "Hardcore"
+    },
+    {
+      "name": "Warrior Tank Build",
+      "description": "Template for Warrior tank builds",
+      "item_types": ["Sword", "Axe", "Mace", "Shield", "Heavy Armour", "Helmet", "Gloves", "Boots"],
+      "required_stats": [
+        "increased Armour",
+        "increased Life",
+        "increased Block Chance",
+        "Elemental Resistances",
+        "increased Melee Damage"
+      ],
+      "max_price": 200,
+      "league": "Hardcore"
+    },
+    {
+      "name": "Sorceress Lightning Build",
+      "description": "Template for Sorceress lightning builds",
+      "item_types": ["Staff", "Wand", "Robe", "Helmet", "Gloves", "Boots"],
+      "required_stats": [
+        "increased Lightning Damage",
+        "increased Spell Damage",
+        "increased Cast Speed",
+        "increased Mana",
+        "Lightning Resistance"
+      ],
+      "max_price": 120,
+      "league": "Hardcore"
+    },
+    {
+      "name": "Mercenary Crossbow Build",
+      "description": "Template for Mercenary crossbow builds",
+      "item_types": ["Crossbow", "Body Armour", "Helmet", "Gloves", "Boots"],
+      "required_stats": [
+        "increased Physical Damage",
+        "increased Attack Speed",
+        "increased Critical Strike",
+        "increased Life",
+        "increased Reload Speed"
+      ],
+      "max_price": 100,
+      "league": "Hardcore"
+    }
+  ]
+}

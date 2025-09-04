@@ -1,0 +1,59 @@
+{
+  "rules": [
+    {
+      "name": "Good Deals Under 50 Chaos",
+      "description": "Items priced under 50 chaos",
+      "conditions": [
+        {
+          "field": "price_chaos",
+          "operator": "lte",
+          "value": 50,
+          "case_sensitive": false
+        },
+        {
+          "field": "price",
+          "operator": "ne",
+          "value": null,
+          "case_sensitive": false
+        }
+      ],
+      "logic": "and",
+      "enabled": true,
+      "priority": 100
+    }
+  ],
+  "whitelist_rules": [
+    {
+      "name": "Unique Items Whitelist",
+      "description": "Always show unique items",
+      "conditions": [
+        {
+          "field": "item.frame_type",
+          "operator": "eq",
+          "value": 3,
+          "case_sensitive": false
+        }
+      ],
+      "logic": "and",
+      "enabled": true,
+      "priority": 200
+    }
+  ],
+  "blacklist_rules": [
+    {
+      "name": "Overpriced Items",
+      "description": "Block items over 1000 chaos",
+      "conditions": [
+        {
+          "field": "price_chaos",
+          "operator": "gt",
+          "value": 1000,
+          "case_sensitive": false
+        }
+      ],
+      "logic": "and",
+      "enabled": true,
+      "priority": 150
+    }
+  ]
+}
