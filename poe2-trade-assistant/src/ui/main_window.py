@@ -11,7 +11,7 @@ from typing import List, Optional
 import logging
 
 from config.settings import Settings
-from api.poe_api import PoEAPI
+from api.poe2_simple import SimplePoE2API
 from api.models import SearchResult
 from filters.item_filter import ItemFilter, FilterRule
 from filters.preset_filters import PresetFilters
@@ -24,7 +24,7 @@ class MainWindow:
     
     def __init__(self, settings: Settings):
         self.settings = settings
-        self.api = PoEAPI(settings)
+        self.api = SimplePoE2API(settings)
         self.item_filter = ItemFilter()
         self.current_results: List[SearchResult] = []
         
@@ -40,8 +40,8 @@ class MainWindow:
         # Создаем интерфейс
         self.create_widgets()
         
-        # Загружаем предустановленные фильтры
-        self.load_preset_filters()
+        # Загружаем предустановленные фильтры (отключено из-за проблем с валидацией)
+        # self.load_preset_filters()
     
     def setup_style(self):
         """Настройка стиля интерфейса"""
@@ -306,27 +306,55 @@ class MainWindow:
                 
                 currency = self.currency_var.get()
                 
-                # Выполняем поиск в отдельном потоке
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                
-                results = loop.run_until_complete(
-                    self.api.search_items(
-                        league=league,
-                        name=item_name if item_name else None,
-                        min_price=min_price,
-                        max_price=max_price,
-                        currency=currency
-                    )
+                # Выполняем синхронный поиск
+                raw_results = self.api.search_items_simple(
+                    league=league,
+                    item_name=item_name if item_name else None,
+                    min_price=min_price,
+                    max_price=max_price,
+                    currency=currency
                 )
                 
-                loop.close()
+                # Конвертируем в SearchResult объекты
+                results = []
+                for raw_item in raw_results:
+                    try:
+                        # Создаем упрощенные объекты
+                        item = type('Item', (), {
+                            'id': raw_item.get('name', 'unknown'),
+                            'name': raw_item.get('name'),
+                            'type_line': raw_item.get('type'),
+                            'ilvl': raw_item.get('ilvl'),
+                            'corrupted': raw_item.get('corrupted', False),
+                            'frame_type': raw_item.get('frame_type', 0)
+                        })()
+                        
+                        price = None
+                        if raw_item.get('price'):
+                            price = type('PriceData', (), {
+                                'amount': raw_item.get('price', 0),
+                                'currency': raw_item.get('currency', 'chaos'),
+                                'type': 'fixed'
+                            })()
+                        
+                        result = type('SearchResult', (), {
+                            'item': item,
+                            'price': price,
+                            'listing': {'account': {'name': raw_item.get('seller', 'Unknown')}},
+                            'price_chaos': raw_item.get('price', 0) if raw_item.get('currency') == 'chaos' else None
+                        })()
+                        
+                        results.append(result)
+                        
+                    except Exception as e:
+                        logger.warning(f"Failed to parse item: {e}")
+                        continue
                 
-                # Применяем фильтры
-                filtered_results = self.item_filter.filter_items(results)
+                # Применяем фильтры (упрощенно)
+                filtered_results = results  # Пока без сложной фильтрации
                 
                 # Обновляем результаты в главном потоке
-                self.root.after(0, lambda: self.update_results(filtered_results))
+                self.root.after(0, lambda: self.update_results_simple(raw_results))
                 
             except Exception as e:
                 error_msg = str(e)
@@ -360,6 +388,43 @@ class MainWindow:
             ))
         
         self.status_var.set(f"Найдено {len(results)} предметов")
+    
+    def update_results_simple(self, raw_results: List[Dict[str, Any]]):
+        """Упрощенное обновление результатов"""
+        # Очищаем старые результаты
+        for item in self.results_tree.get_children():
+            self.results_tree.delete(item)
+        
+        # Добавляем новые результаты
+        for result in raw_results:
+            price_str = f"{result.get('price', 'N/A'):.1f}" if result.get('price') else "N/A"
+            currency_str = result.get('currency', '')
+            
+            # Определяем цвет по типу рамки
+            frame_type = result.get('frame_type', 0)
+            tags = ()
+            if frame_type == 3:  # Unique
+                tags = ("unique",)
+            elif frame_type == 2:  # Rare  
+                tags = ("rare",)
+            elif frame_type == 5:  # Currency
+                tags = ("currency",)
+            
+            self.results_tree.insert("", tk.END, values=(
+                result.get('name', 'Unknown'),
+                result.get('type', 'Unknown'),
+                price_str,
+                currency_str,
+                result.get('ilvl', 'N/A'),
+                result.get('seller', 'Unknown')
+            ), tags=tags)
+        
+        # Настраиваем цвета
+        self.results_tree.tag_configure("unique", foreground="orange")
+        self.results_tree.tag_configure("rare", foreground="yellow") 
+        self.results_tree.tag_configure("currency", foreground="gold")
+        
+        self.status_var.set(f"Найдено {len(raw_results)} предметов")
     
     def clear_search(self):
         """Очистка поля поиска"""

@@ -32,7 +32,7 @@ class FilterCondition(BaseModel):
     """Условие фильтрации"""
     field: str  # Поле для проверки (например, "name", "price.amount", "item.ilvl")
     operator: FilterOperator
-    value: Union[str, int, float, List[Any]]
+    value: Union[str, int, float, List[Any], None]
     case_sensitive: bool = False
     
     def evaluate(self, obj: Any) -> bool:
