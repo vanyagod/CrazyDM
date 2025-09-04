@@ -1,0 +1,62 @@
+{
+  "current_leagues": [
+    {
+      "id": "Necrosis",
+      "name": "Necrosis",
+      "description": "Standard PoE2 league",
+      "hardcore": false,
+      "active": true
+    },
+    {
+      "id": "Necrosis HC", 
+      "name": "Necrosis Hardcore",
+      "description": "Hardcore PoE2 league",
+      "hardcore": true,
+      "active": true
+    },
+    {
+      "id": "Delirium",
+      "name": "Delirium",
+      "description": "Delirium challenge league",
+      "hardcore": false,
+      "active": true
+    },
+    {
+      "id": "Delirium HC",
+      "name": "Delirium Hardcore", 
+      "description": "Delirium hardcore league",
+      "hardcore": true,
+      "active": true
+    },
+    {
+      "id": "Breach",
+      "name": "Breach",
+      "description": "Breach challenge league",
+      "hardcore": false,
+      "active": true
+    },
+    {
+      "id": "Breach HC",
+      "name": "Breach Hardcore",
+      "description": "Breach hardcore league", 
+      "hardcore": true,
+      "active": true
+    },
+    {
+      "id": "Ritual",
+      "name": "Ritual",
+      "description": "Ritual challenge league",
+      "hardcore": false,
+      "active": true
+    },
+    {
+      "id": "Ritual HC",
+      "name": "Ritual Hardcore",
+      "description": "Ritual hardcore league",
+      "hardcore": true,
+      "active": true
+    }
+  ],
+  "default_league": "Necrosis",
+  "last_updated": "2024-12-04"
+}
